@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Desa Tambelang – Kecamatan Maesaan, Minahasa Selatan</title>
+  <meta name="description"
+    content="Website resmi profil Desa Tambelang, Kecamatan Maesaan, Kabupaten Minahasa Selatan, Sulawesi Utara. Informasi sejarah, struktur pemerintahan, dan potensi desa.">
+  <meta name="keywords" content="Desa Tambelang, Maesaan, Minahasa Selatan, Sulawesi Utara, profil desa, KKT Unsrat">
+  <meta name="author" content="KKT Unsrat Angkatan 146 – Posko Tambelang">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap"
+    rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root {
+      --green: #2d6a4f;
+      --green-light: #52b788;
+      --gold: #d4a017;
+      --cream: #fdf8f0;
+      --dark: #1a1a1a;
+    }
+
+    * {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      color: var(--dark);
+    }
+
+    h1,
+    h2,
+    h3,
+    .display {
+      font-family: 'Playfair Display', serif;
+    }
+
+    /* ---- HERO ---- */
+    #hero {
+      min-height: 100vh;
+      background: linear-gradient(160deg, #0a3d22 0%, #1a5e38 50%, #2d6a4f 100%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    #hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+
+    .hero-leaf {
+      position: absolute;
+      opacity: 0.07;
+      font-size: 18rem;
+      line-height: 1;
+      user-select: none;
+      pointer-events: none;
+    }
+
+    /* ---- NAV ---- */
+    #navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 999;
+      transition: all .3s;
+    }
+
+    #navbar.scrolled {
+      background: rgba(10, 61, 34, .96);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 2px 20px rgba(0, 0, 0, .3);
+    }
+
+    /* ---- SECTION DIVIDER ---- */
+    .wave-top {
+      margin-top: -2px;
+    }
+
+    /* ---- STAT CARD ---- */
+    .stat-card {
+      background: white;
+      border-radius: 1.5rem;
+      border-left: 5px solid var(--green-light);
+      transition: transform .25s, box-shadow .25s;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 40px rgba(45, 106, 79, .15);
+    }
+
+    /* ---- TIMELINE ---- */
+    .timeline-line {
+      position: absolute;
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--green-light), var(--gold));
+      transform: translateX(-50%);
+    }
+
+    @media(max-width:768px) {
+      .timeline-line {
+        left: 20px;
+      }
+    }
+
+    /* ---- ORG CARD ---- */
+    .org-card {
+      background: white;
+      border: 2px solid #e5e7eb;
+      border-radius: .75rem;
+      transition: border-color .2s, box-shadow .2s;
+    }
+
+    .org-card:hover {
+      border-color: var(--green-light);
+      box-shadow: 0 8px 24px rgba(82, 183, 136, .2);
+    }
+
+    /* ---- PHOTO GALLERY ---- */
+    .photo-slot {
+      aspect-ratio: 4/3;
+      background: #e8f5e9;
+      border-radius: 1rem;
+      border: 2px dashed #a8d5b5;
+      overflow: hidden;
+      position: relative;
+      cursor: pointer;
+      transition: transform .2s;
+    }
+
+    .photo-slot:hover {
+      transform: scale(1.02);
+    }
+
+    .photo-slot img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: none;
+    }
+
+    .photo-slot .placeholder {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      color: #52b788;
+      font-size: .85rem;
+      gap: .5rem;
+    }
+
+    .photo-slot input[type=file] {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    /* ---- MAP ---- */
+    #map-frame {
+      border-radius: 1.5rem;
+      overflow: hidden;
+    }
+
+    /* ---- ANIMATIONS ---- */
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px)
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0)
+      }
+    }
+
+    .fade-up {
+      animation: fadeUp .7s ease both;
+    }
+
+    .delay-1 {
+      animation-delay: .1s
+    }
+
+    .delay-2 {
+      animation-delay: .2s
+    }
+
+    .delay-3 {
+      animation-delay: .3s
+    }
+
+    .delay-4 {
+      animation-delay: .4s
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity .6s ease, transform .6s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* scroll indicator */
+    .scroll-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, .4);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        transform: scale(1)
+      }
+
+      50% {
+        transform: scale(1.5)
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav id="navbar" class="px-6 py-4">
+    <div class="max-w-6xl mx-auto flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <span class="text-white font-medium tracking-wide text-sm">Desa Tambelang</span>
+      </div>
+      <div class="hidden md:flex items-center gap-6 text-sm text-white/80">
+        <a href="#profil" class="hover:text-white transition">Profil</a>
+        <a href="#sejarah" class="hover:text-white transition">Sejarah</a>
+        <a href="#struktur" class="hover:text-white transition">Struktur</a>
+        <a href="#lokasi" class="hover:text-white transition">Lokasi</a>
+      </div>
+      <!-- mobile hamburger -->
+      <button id="menuBtn" class="md:hidden text-white">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+    </div>
+    <!-- mobile menu -->
+    <div id="mobileMenu"
+      class="hidden md:hidden mt-4 pb-4 border-t border-white/20 pt-4 flex flex-col gap-3 text-sm text-white/90 px-2">
+      <a href="#profil" onclick="closeMobile()">Profil Desa</a>
+      <a href="#sejarah" onclick="closeMobile()">Sejarah</a>
+      <a href="#struktur" onclick="closeMobile()">Struktur Organisasi</a>
+      <a href="#galeri" onclick="closeMobile()">Galeri Foto</a>
+      <a href="#lokasi" onclick="closeMobile()">Lokasi</a>
+    </div>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <section id="hero" class="flex flex-col items-center justify-center text-center px-6 py-32 relative">
+    <span class="hero-leaf" style="top:-4rem;right:-4rem;transform:rotate(-20deg)">🌿</span>
+    <span class="hero-leaf" style="bottom:-4rem;left:-2rem;transform:rotate(15deg)">🌿</span>
+
+    <div class="relative z-10 max-w-3xl">
+      <p class="text-emerald-300 tracking-[.3em] uppercase text-xs mb-4 fade-up">Kabupaten Minahasa Selatan · Kecamatan
+        Maesaan</p>
+      <h1 class="text-white text-6xl md:text-8xl mb-4 leading-none fade-up delay-1">Desa<br /><span
+          class="italic text-emerald-300">Tambelang</span></h1>
+      <p class="text-white/70 text-lg md:text-xl mt-6 fade-up delay-2 max-w-xl mx-auto leading-relaxed">
+        Diresmikan sejak <strong class="text-emerald-300">28 November 1928</strong> — sebuah desa yang kini berusia 97
+        tahun, kaya tradisi dan warisan alam Minahasa.
+      </p>
+      <div class="mt-10 flex items-center justify-center gap-4 fade-up delay-3">
+        <a href="#profil"
+          class="px-7 py-3 bg-emerald-400 text-green-950 rounded-full font-medium hover:bg-white transition text-sm">Jelajahi
+          Desa</a>
+        <a href="#sejarah"
+          class="px-7 py-3 border border-white/30 text-white rounded-full text-sm hover:bg-white/10 transition">Baca
+          Sejarah</a>
+      </div>
+    </div>
+
+    <!-- scroll indicator -->
+    <div class="absolute bottom-10 flex flex-col items-center gap-2 fade-up delay-4">
+      <span class="text-white/40 text-xs tracking-widest uppercase">Scroll</span>
+      <div class="flex flex-col gap-1">
+        <div class="scroll-dot" style="animation-delay:0s"></div>
+        <div class="scroll-dot" style="animation-delay:.2s"></div>
+        <div class="scroll-dot" style="animation-delay:.4s"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- wave divider -->
+  <div class="wave-top bg-[#fdf8f0]">
+    <svg viewBox="0 0 1440 60" xmlns="http://www.w3.org/2000/svg" style="display:block;background:#0a3d22">
+      <path d="M0,40 C360,80 1080,0 1440,40 L1440,60 L0,60 Z" fill="#fdf8f0" />
+    </svg>
+  </div>
+
+  <!-- ===== PROFIL ===== -->
+  <section id="profil" class="py-24 px-6 bg-[#fdf8f0]">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-16 reveal">
+        <p class="text-emerald-600 tracking-widest uppercase text-xs mb-2">Mengenal Lebih Dekat</p>
+        <h2 class="text-4xl md:text-5xl text-green-900">Profil Desa</h2>
+        <div class="w-16 h-1 bg-emerald-400 mx-auto mt-4 rounded"></div>
+      </div>
+
+      <!-- stat grid -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16">
+        <div class="stat-card p-6 reveal">
+          <div class="text-3xl font-bold text-green-800">97</div>
+          <div class="text-sm text-gray-500 mt-1">Tahun Berdiri</div>
+          <div class="text-xs text-emerald-600 mt-1">Sejak 1928</div>
+        </div>
+        <div class="stat-card p-6 reveal" style="transition-delay:.1s">
+          <div class="text-3xl font-bold text-green-800">652</div>
+          <div class="text-sm text-gray-500 mt-1">Kepala Keluarga</div>
+          <div class="text-xs text-emerald-600 mt-1">Data Feb 2026</div>
+        </div>
+        <div class="stat-card p-6 reveal" style="transition-delay:.15s">
+          <div class="text-3xl font-bold text-green-800">1.931</div>
+          <div class="text-sm text-gray-500 mt-1">Total Penduduk</div>
+          <div class="text-xs text-emerald-600 mt-1">L: 1.022 · P: 909</div>
+        </div>
+        <div class="stat-card p-6 reveal" style="transition-delay:.2s">
+          <div class="text-3xl font-bold text-green-800">12</div>
+          <div class="text-sm text-gray-500 mt-1">Lingkungan (Jaga)</div>
+          <div class="text-xs text-emerald-600 mt-1">Wilayah Administratif</div>
+        </div>
+      </div>
+
+      <!-- FOTO DESA -->
+      <div class="mb-12 reveal">
+        <p class="text-center text-xs text-emerald-600 tracking-widest uppercase mb-6">Foto Desa</p>
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+
+          <div class="group relative overflow-hidden rounded-2xl shadow-md" style="aspect-ratio:4/3">
+            <img src="foto1.jpeg" alt="Evaluasi Lomba Desa"
+              class="w-full h-full object-cover transition duration-300 group-hover:scale-105" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+            <div class="absolute bottom-3 left-3 right-3">
+              <p class="text-white text-xs font-medium">Evaluasi Tingkat Perkembangan Desa</p>
+            </div>
+          </div>
+
+          <div class="group relative overflow-hidden rounded-2xl shadow-md" style="aspect-ratio:4/3">
+            <img src="foto2.jpeg" alt="Balai Desa"
+              class="w-full h-full object-cover transition duration-300 group-hover:scale-105" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+            <div class="absolute bottom-3 left-3 right-3">
+              <p class="text-white text-xs font-medium">Balai Desa Tambelang</p>
+            </div>
+          </div>
+
+          <div class="group relative overflow-hidden rounded-2xl shadow-md" style="aspect-ratio:4/3">
+            <img src="foto3.jpeg" alt="Gotong Royong"
+              class="w-full h-full object-cover transition duration-300 group-hover:scale-105" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+            <div class="absolute bottom-3 left-3 right-3">
+              <p class="text-white text-xs font-medium">Kegiatan Gotong Royong Warga</p>
+            </div>
+          </div>
+
+          <div class="group relative overflow-hidden rounded-2xl shadow-md" style="aspect-ratio:4/3">
+            <img src="foto4.jpeg" alt="Kebun Pertanian"
+              class="w-full h-full object-cover transition duration-300 group-hover:scale-105" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+            <div class="absolute bottom-3 left-3 right-3">
+              <p class="text-white text-xs font-medium">Pertanian Warga</p>
+            </div>
+          </div>
+
+          <div class="group relative overflow-hidden rounded-2xl shadow-md" style="aspect-ratio:4/3">
+            <img src="foto5.jpeg" alt="Penyulingan Nilam"
+              class="w-full h-full object-cover transition duration-300 group-hover:scale-105" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+            <div class="absolute bottom-3 left-3 right-3">
+              <p class="text-white text-xs font-medium">Penyulingan Nilam</p>
+            </div>
+          </div>
+
+          <div class="group relative overflow-hidden rounded-2xl shadow-md" style="aspect-ratio:4/3">
+            <img src="foto6.jpeg" alt="Jalan Desa"
+              class="w-full h-full object-cover transition duration-300 group-hover:scale-105" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+            <div class="absolute bottom-3 left-3 right-3">
+              <p class="text-white text-xs font-medium">Jalan Desa & Pemandangan Alam</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- info cards -->
+      <div class="grid md:grid-cols-3 gap-8 mb-12">
+        <!-- identitas -->
+        <div class="bg-white rounded-2xl p-8 shadow-sm reveal">
+          <div class="w-12 h-12 bg-emerald-100 rounded-xl flex items-center justify-center text-2xl mb-4">🏡</div>
+          <h3 class="text-xl text-green-900 mb-3">Identitas Desa</h3>
+          <ul class="space-y-2 text-sm text-gray-600">
+            <li class="flex justify-between"><span class="text-gray-400">Provinsi</span><span>Sulawesi Utara</span>
+            </li>
+            <li class="flex justify-between"><span class="text-gray-400">Kabupaten</span><span>Minahasa
+                Selatan</span>
+            </li>
+            <li class="flex justify-between"><span class="text-gray-400">Kecamatan</span><span>Maesaan</span></li>
+            <li class="flex justify-between"><span class="text-gray-400">HUT Desa</span><span>28 November</span>
+            </li>
+            <li class="flex justify-between"><span class="text-gray-400">Suku
+                Mayoritas</span><span>Tountemboan</span>
+            </li>
+            <li class="flex justify-between"><span class="text-gray-400">Bahasa
+                Daerah</span><span>Tountemboan</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- mata pencaharian -->
+        <div class="bg-white rounded-2xl p-8 shadow-sm reveal" style="transition-delay:.1s">
+          <div class="w-12 h-12 bg-amber-100 rounded-xl flex items-center justify-center text-2xl mb-4">🌾</div>
+          <h3 class="text-xl text-green-900 mb-3">Mata Pencaharian</h3>
+          <p class="text-sm text-gray-500 mb-4">Mayoritas penduduk berprofesi sebagai <strong
+              class="text-green-800">petani</strong>. Komoditas utama:</p>
+          <div class="flex flex-wrap gap-2">
+            <span class="px-3 py-1 bg-emerald-100 text-emerald-800 rounded-full text-xs">🌿 Nilam</span>
+            <span class="px-3 py-1 bg-red-100 text-red-700 rounded-full text-xs">🌶 Cabai</span>
+            <span class="px-3 py-1 bg-orange-100 text-orange-700 rounded-full text-xs">🍅 Tomat</span>
+            <span class="px-3 py-1 bg-yellow-100 text-yellow-700 rounded-full text-xs">🌽 Jagung</span>
+            <span class="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-xs">🫘 Brenebon</span>
+            <span class="px-3 py-1 bg-pink-100 text-pink-700 rounded-full text-xs">🧅 Bawang</span>
+            <span class="px-3 py-1 bg-stone-100 text-stone-700 rounded-full text-xs">🌸 Cengkeh</span>
+          </div>
+        </div>
+
+        <!-- fasilitas -->
+        <div class="bg-white rounded-2xl p-8 shadow-sm reveal" style="transition-delay:.2s">
+          <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center text-2xl mb-4">🏛️</div>
+          <h3 class="text-xl text-green-900 mb-3">Fasilitas Umum</h3>
+          <ul class="space-y-3 text-sm text-gray-600">
+            <li class="flex items-start gap-2"><span class="text-emerald-500 mt-0.5">✓</span><span>Gereja GMIM
+                (berdiri
+                sejak 28 Feb 1928)</span></li>
+            <li class="flex items-start gap-2"><span class="text-emerald-500 mt-0.5">✓</span><span>SD GMIM (melayani
+                desa sekitar)</span></li>
+            <li class="flex items-start gap-2"><span class="text-emerald-500 mt-0.5">✓</span><span>Pustu (Posyandu
+                Pembantu)</span></li>
+            <li class="flex items-start gap-2"><span class="text-gray-400 mt-0.5">○</span><span
+                class="text-gray-400">Pasar (masyarakat ke Modoinding / Tompaso Baru)</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- perekonomian banner -->
+      <div class="bg-gradient-to-r from-green-800 to-emerald-600 rounded-2xl p-8 md:p-12 text-white reveal">
+        <div class="grid md:grid-cols-2 gap-8 items-center">
+          <div>
+            <p class="text-emerald-300 text-xs tracking-widest uppercase mb-2">Perekonomian</p>
+            <h3 class="text-2xl md:text-3xl mb-4">Basis Agrikultur yang Kuat</h3>
+            <p class="text-white/80 text-sm leading-relaxed">
+              Dari tanaman padi ladang dan jagung pada masa awal berdirinya desa, kini pertanian Tambelang
+              berkembang
+              menjadi multi-komoditas. Cengkeh sebagai panen tahunan berpadu dengan tanaman bulanan — nilam,
+              brenebon,
+              cabai, tomat, dan bawang — memberikan pendapatan yang lebih stabil bagi rumah tangga petani.
+            </p>
+          </div>
+          <div class="grid grid-cols-2 gap-4">
+            <div class="bg-white/10 rounded-xl p-5 text-center">
+              <div class="text-3xl mb-1">🌿</div>
+              <div class="text-sm font-medium">Nilam</div>
+              <div class="text-xs text-emerald-300">Komoditas Unggulan</div>
+            </div>
+            <div class="bg-white/10 rounded-xl p-5 text-center">
+              <div class="text-3xl mb-1">🌸</div>
+              <div class="text-sm font-medium">Cengkeh</div>
+              <div class="text-xs text-emerald-300">Panen Tahunan</div>
+            </div>
+            <div class="bg-white/10 rounded-xl p-5 text-center">
+              <div class="text-3xl mb-1">🌶</div>
+              <div class="text-sm font-medium">Cabai & Tomat</div>
+              <div class="text-xs text-emerald-300">Sayuran Utama</div>
+            </div>
+            <div class="bg-white/10 rounded-xl p-5 text-center">
+              <div class="text-3xl mb-1">🌽</div>
+              <div class="text-sm font-medium">Jagung</div>
+              <div class="text-xs text-emerald-300">Siklus 3 Bulan</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- wave divider -->
+  <div class="bg-[#fdf8f0]">
+    <svg viewBox="0 0 1440 60" xmlns="http://www.w3.org/2000/svg" style="display:block">
+      <path d="M0,0 C360,60 1080,0 1440,40 L1440,60 L0,60 Z" fill="#0f2d1c" />
+    </svg>
+  </div>
+
+  <!-- ===== SEJARAH ===== -->
+  <section id="sejarah" class="py-24 px-6" style="background:#0f2d1c">
+    <div class="max-w-4xl mx-auto">
+      <div class="text-center mb-16 reveal">
+        <p class="text-emerald-400 tracking-widest uppercase text-xs mb-2">Asal-Usul</p>
+        <h2 class="text-4xl md:text-5xl text-white">Sejarah Desa</h2>
+        <div class="w-16 h-1 bg-emerald-400 mx-auto mt-4 rounded"></div>
+      </div>
+
+      <!-- timeline -->
+      <div class="relative">
+        <div class="timeline-line hidden md:block"></div>
+
+        <!-- item 1926 -->
+        <div class="relative flex flex-col md:flex-row gap-6 mb-16 reveal">
+          <div class="md:w-1/2 md:text-right md:pr-12">
+            <div
+              class="inline-block bg-emerald-900 border border-emerald-700 rounded-xl px-4 py-2 text-emerald-300 text-2xl font-bold mb-2">
+              1926</div>
+            <h3 class="text-white text-lg mb-2">Penemuan Awal</h3>
+            <p class="text-white/60 text-sm leading-relaxed">Pedagang dari Desa Sonder bermarga <strong
+                class="text-emerald-300">Tambuwun</strong> menemukan kawasan yang masih berupa hutan. Tiga keluarga
+              pertama — <em class="text-white/80">Pesik, Engkol, dan Sorongan</em> — mulai membuka perkebunan di lahan
+              yang subur ini.</p>
+          </div>
+          <div
+            class="absolute left-1/2 top-2 -translate-x-1/2 w-4 h-4 bg-emerald-400 rounded-full border-4 border-emerald-900 hidden md:block">
+          </div>
+          <div class="md:w-1/2 md:pl-12"></div>
+        </div>
+
+        <!-- item 1927 -->
+        <div class="relative flex flex-col md:flex-row gap-6 mb-16 reveal">
+          <div class="md:w-1/2"></div>
+          <div
+            class="absolute left-1/2 top-2 -translate-x-1/2 w-4 h-4 bg-amber-400 rounded-full border-4 border-emerald-900 hidden md:block">
+          </div>
+          <div class="md:w-1/2 md:pl-12">
+            <div
+              class="inline-block bg-amber-900/60 border border-amber-700/50 rounded-xl px-4 py-2 text-amber-300 text-2xl font-bold mb-2">
+              1927</div>
+            <h3 class="text-white text-lg mb-2">Pertumbuhan Komunitas</h3>
+            <p class="text-white/60 text-sm leading-relaxed">Jumlah kepala keluarga yang membuka perkebunan bertambah
+              menjadi <strong class="text-amber-300">15 KK</strong>. Mereka mulai memilih untuk menetap di daerah ini
+              secara permanen.</p>
+          </div>
+        </div>
+
+        <!-- item 1928 -->
+        <div class="relative flex flex-col md:flex-row gap-6 mb-16 reveal">
+          <div class="md:w-1/2 md:text-right md:pr-12">
+            <div
+              class="inline-block bg-emerald-700/60 border border-emerald-500/50 rounded-xl px-4 py-2 text-emerald-200 text-2xl font-bold mb-2">
+              1928</div>
+            <h3 class="text-white text-lg mb-2">Peresmian Desa</h3>
+            <p class="text-white/60 text-sm leading-relaxed">Pemerintah Belanda meresmikan desa ini pada <strong
+                class="text-emerald-300">28 November 1928</strong>. Sudah 30–40 keluarga menetap. Nama
+              <em>"Tambelang"</em> berasal dari banyaknya pohon bambu (<em>bulu tempat bakar ikan/nasi jahe</em>) yang
+              disebut penduduk lokal sebagai <strong class="text-emerald-300">"Tambelang"</strong>.
+            </p>
+            <div class="mt-4 inline-flex gap-3 flex-wrap justify-end">
+              <div class="bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-center">
+                <div class="text-white text-sm font-semibold">Simon Petrus Saroinsong</div>
+                <div class="text-white/40 text-xs">Tonaas (Pembuka Kampung)</div>
+              </div>
+              <div class="bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-center">
+                <div class="text-white text-sm font-semibold">Darius Tambuwun</div>
+                <div class="text-white/40 text-xs">Hukum Tua Pertama</div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="absolute left-1/2 top-2 -translate-x-1/2 w-5 h-5 bg-white rounded-full border-4 border-emerald-400 hidden md:block shadow-lg shadow-emerald-400/50">
+          </div>
+          <div class="md:w-1/2 md:pl-12"></div>
+        </div>
+
+        <!-- item 1970an -->
+        <div class="relative flex flex-col md:flex-row gap-6 mb-16 reveal">
+          <div class="md:w-1/2"></div>
+          <div
+            class="absolute left-1/2 top-2 -translate-x-1/2 w-4 h-4 bg-emerald-400 rounded-full border-4 border-emerald-900 hidden md:block">
+          </div>
+          <div class="md:w-1/2 md:pl-12">
+            <div
+              class="inline-block bg-emerald-900 border border-emerald-700 rounded-xl px-4 py-2 text-emerald-300 text-2xl font-bold mb-2">
+              1970-an</div>
+            <h3 class="text-white text-lg mb-2">Pengaspalan Jalan</h3>
+            <p class="text-white/60 text-sm leading-relaxed">Akses jalan yang sebelumnya bebatuan diaspal dan dilebarkan
+              oleh Bapak Bupati Saerang, membuka konektivitas desa dengan daerah luar.</p>
+          </div>
+        </div>
+
+        <!-- item 2006 -->
+        <div class="relative flex flex-col md:flex-row gap-6 mb-8 reveal">
+          <div class="md:w-1/2 md:text-right md:pr-12">
+            <div
+              class="inline-block bg-emerald-900 border border-emerald-700 rounded-xl px-4 py-2 text-emerald-300 text-2xl font-bold mb-2">
+              2006</div>
+            <h3 class="text-white text-lg mb-2">Usulan Pemekaran</h3>
+            <p class="text-white/60 text-sm leading-relaxed">Dengan 654 KK yang terbagi ke 12 lingkungan, muncul usulan
+              pemekaran desa. Setelah musyawarah panjang antara masyarakat dan tua-tua kampung yang mengutamakan
+              persatuan, moratorium pemekaran akhirnya habis masa berlakunya tanpa realisasi.</p>
+          </div>
+          <div
+            class="absolute left-1/2 top-2 -translate-x-1/2 w-4 h-4 bg-emerald-400 rounded-full border-4 border-emerald-900 hidden md:block">
+          </div>
+          <div class="md:w-1/2 md:pl-12"></div>
+        </div>
+      </div>
+
+      <!-- quote -->
+      <div class="mt-8 border-l-4 border-emerald-400 pl-6 reveal">
+        <p class="text-white/70 italic text-lg leading-relaxed">"Sejarah Desa Tambelang bukan hanya cerita masa lalu,
+          tetapi pedoman untuk melestarikan tradisi, budaya, serta nilai-nilai kebersamaan bagi generasi yang akan
+          datang."</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- wave divider -->
+  <div style="background:#0f2d1c">
+    <svg viewBox="0 0 1440 60" xmlns="http://www.w3.org/2000/svg" style="display:block">
+      <path d="M0,40 C360,0 1080,60 1440,20 L1440,60 L0,60 Z" fill="#fdf8f0" />
+    </svg>
+  </div>
+
+  <!-- ===== STRUKTUR ORGANISASI ===== -->
+  <section id="struktur" class="py-24 px-6 bg-[#fdf8f0]">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-16 reveal">
+        <p class="text-emerald-600 tracking-widest uppercase text-xs mb-2">Pemerintahan</p>
+        <h2 class="text-4xl md:text-5xl text-green-900">Struktur Organisasi</h2>
+        <div class="w-16 h-1 bg-emerald-400 mx-auto mt-4 rounded"></div>
+        <p class="text-gray-500 mt-4 text-sm">Susunan Organisasi dan Tata Kerja Pemerintahan Desa Tambelang</p>
+      </div>
+
+      <!-- top level -->
+      <div class="flex flex-col md:flex-row items-center justify-center gap-6 mb-10 reveal">
+        <div class="org-card px-6 py-4 text-center min-w-[140px]">
+          <div class="text-xs text-gray-400 mb-1">Lembaga</div>
+          <div class="font-bold text-green-800">B P D</div>
+        </div>
+        <div class="text-gray-300 text-2xl hidden md:block">⟷</div>
+        <div class="org-card border-2 border-green-700 px-8 py-5 text-center shadow-md">
+          <div class="text-xs text-emerald-600 mb-1 tracking-wide uppercase">Hukum Tua</div>
+          <div class="font-bold text-green-900 text-lg">Yanni F Mumu, S.Pd</div>
+        </div>
+        <div class="text-gray-300 text-2xl hidden md:block">⟷</div>
+        <div class="org-card px-6 py-4 text-center min-w-[140px]">
+          <div class="text-xs text-gray-400 mb-1">Lembaga</div>
+          <div class="font-bold text-green-800">L P M</div>
+        </div>
+      </div>
+
+      <!-- sekretaris -->
+      <div class="flex justify-center mb-10 reveal">
+        <div class="org-card border-emerald-300 px-6 py-4 text-center">
+          <div class="text-xs text-gray-400 mb-1">Sekretaris Desa</div>
+          <div class="font-bold text-green-800">Esry K.I. Liwe</div>
+        </div>
+      </div>
+
+      <!-- kepala seksi & kepala urusan -->
+      <div class="grid md:grid-cols-2 gap-8 mb-10">
+        <div class="reveal">
+          <div class="bg-green-800 text-white text-center text-sm font-medium py-2 rounded-t-xl px-4">KEPALA SEKSI</div>
+          <div class="bg-white rounded-b-xl p-4 grid grid-cols-2 md:grid-cols-4 gap-3">
+            <div class="org-card p-3 text-center">
+              <div class="text-xs text-gray-400 mb-1">Kasie Pemerintahan</div>
+              <div class="font-semibold text-green-800 text-xs">Stefany Royke Wowor</div>
+            </div>
+            <div class="org-card p-3 text-center">
+              <div class="text-xs text-gray-400 mb-1">Kasie Kesejahteraan</div>
+              <div class="font-semibold text-green-800 text-xs">Zenni Warow</div>
+            </div>
+            <div class="org-card p-3 text-center">
+              <div class="text-xs text-gray-400 mb-1">Kasie Pelayanan</div>
+              <div class="font-semibold text-green-800 text-xs">Rinni Liwe</div>
+            </div>
+            <div class="org-card p-3 text-center">
+              <div class="text-xs text-gray-400 mb-1">Kasie Perencanaan</div>
+              <div class="font-semibold text-green-800 text-xs">Teidy Gregorius Tambingon</div>
+            </div>
+          </div>
+        </div>
+        <div class="reveal" style="transition-delay:.1s">
+          <div class="bg-emerald-600 text-white text-center text-sm font-medium py-2 rounded-t-xl px-4">KEPALA URUSAN
+          </div>
+          <div class="bg-white rounded-b-xl p-4 grid grid-cols-2 gap-3">
+            <div class="org-card p-3 text-center">
+              <div class="text-xs text-gray-400 mb-1">Kaur TU & Umum</div>
+              <div class="font-semibold text-green-800 text-xs">Grace Valentine Wowor</div>
+            </div>
+            <div class="org-card p-3 text-center">
+              <div class="text-xs text-gray-400 mb-1">Kaur Keuangan</div>
+              <div class="font-semibold text-green-800 text-xs">Fiani Richie Tombeng</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- kepala wilayah / jaga -->
+      <div class="reveal">
+        <div class="bg-amber-700 text-white text-center text-sm font-medium py-2 rounded-t-xl px-4">KEPALA WILAYAH
+          (KEPALA JAGA)</div>
+        <div class="bg-white rounded-b-xl p-6">
+          <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
+            <!-- jaga 1-12 -->
+            <div class="org-card p-3 text-center">
+              <div class="text-xs text-gray-400">Jaga 1</div>
+              <div class="font-semibold text-green-800 text-xs mt-1">Gerald Goni</div>
+            </div>
+            <div class="org-card p-3 text-center">
+              <div class="text-xs text-gray-400">Jaga 2</div>
+              <div class="font-semibold text-green-800 text-xs mt-1">Marselus Laoh</div>
+            </div>
+            <div class="org-card p-3 text-center">
+              <div class="text-xs text-gray-400">Jaga 3</div>
+              <div class="font-semibold text-green-800 text-xs mt-1">Jimbris Pua</div>
+            </div>
+            <div class="org-card p-3 text-center">
+              <div class="text-xs text-gray-400">Jaga 4</div>
+              <div class="font-semibold text-green-800 text-xs mt-1">Fenni Onibala</div>
+            </div>
+            <div class="org-card p-3 text-center">
+              <div class="text-xs text-gray-400">Jaga 5</div>
+              <div class="font-semibold text-green-800 text-xs mt-1">Seisy Jeine Tambuwun</div>
+            </div>
+            <div class="org-card p-3 text-center">
+              <div class="text-xs text-gray-400">Jaga 6</div>
+              <div class="font-semibold text-green-800 text-xs mt-1">Fadly Lolowang</div>
+            </div>
+            <div class="org-card p-3 text-center">
+              <div class="text-xs text-gray-400">Jaga 7</div>
+              <div class="font-semibold text-green-800 text-xs mt-1">Moddy Royke Eman</div>
+            </div>
+            <div class="org-card p-3 text-center">
+              <div class="text-xs text-gray-400">Jaga 8</div>
+              <div class="font-semibold text-green-800 text-xs mt-1">Jeifi Pricilia Saroinsong</div>
+            </div>
+            <div class="org-card p-3 text-center">
+              <div class="text-xs text-gray-400">Jaga 9</div>
+              <div class="font-semibold text-green-800 text-xs mt-1">Stany Boyke Tambuwun</div>
+            </div>
+            <div class="org-card p-3 text-center">
+              <div class="text-xs text-gray-400">Jaga 10</div>
+              <div class="font-semibold text-green-800 text-xs mt-1">Neraldy Richard Mondigir</div>
+            </div>
+            <div class="org-card p-3 text-center">
+              <div class="text-xs text-gray-400">Jaga 11</div>
+              <div class="font-semibold text-green-800 text-xs mt-1">Yeheskiel Billy Wowor</div>
+            </div>
+            <div class="org-card p-3 text-center">
+              <div class="text-xs text-gray-400">Jaga 12</div>
+              <div class="font-semibold text-green-800 text-xs mt-1">Arwinda Herly Mokalu</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- ===== LOKASI ===== -->
+  <section id="lokasi" class="py-24 px-6 bg-[#fdf8f0]">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-16 reveal">
+        <p class="text-emerald-600 tracking-widest uppercase text-xs mb-2">Peta & Koordinat</p>
+        <h2 class="text-4xl md:text-5xl text-green-900">Lokasi Desa</h2>
+        <div class="w-16 h-1 bg-emerald-400 mx-auto mt-4 rounded"></div>
+      </div>
+
+
+      <div class="grid md:grid-cols-3 gap-8 items-start">
+        <div class="md:col-span-1 space-y-4 reveal">
+          <div class="bg-white rounded-2xl p-6 shadow-sm">
+            <h3 class="text-green-900 font-semibold mb-4 flex items-center gap-2">
+              <span class="text-xl">📍</span> Koordinat
+            </h3>
+            <div class="space-y-2 text-sm">
+              <div class="flex justify-between border-b pb-2">
+                <span class="text-gray-500">Lintang</span>
+                <span class="font-mono font-semibold">1°0'47"N</span>
+              </div>
+              <div class="flex justify-between border-b pb-2">
+                <span class="text-gray-500">Bujur</span>
+                <span class="font-mono font-semibold">124°47'32"E</span>
+              </div>
+              <div class="flex justify-between border-b pb-2">
+                <span class="text-gray-500">Kecamatan</span>
+                <span>Maesaan</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-gray-500">Kabupaten</span>
+                <span>Minahasa Selatan</span>
+              </div>
+            </div>
+          </div>
+          <div class="bg-white rounded-2xl p-6 shadow-sm">
+            <h3 class="text-green-900 font-semibold mb-3 flex items-center gap-2">
+              <span class="text-xl">🗺️</span> Akses
+            </h3>
+            <ul class="text-sm text-gray-600 space-y-2">
+              <li>🏙️ Dari Amurang ± 35 km</li>
+              <li>🏙️ Dari Manado ± 95 km</li>
+              <li>🛣️ Jalan aspal (sejak 1970-an)</li>
+              <li>🛒 Pasar terdekat: Modoinding / Tompaso Baru</li>
+            </ul>
+          </div>
+          <a href="https://maps.app.goo.gl/3c4tBTdvWP3errCz6" target="_blank"
+            class="flex items-center justify-center gap-2 w-full py-3 bg-green-700 hover:bg-green-800 text-white rounded-xl text-sm font-medium transition">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+            </svg>
+            Buka di Google Maps
+          </a>
+        </div>
+
+        <!-- map embed -->
+        <div class="md:col-span-2 reveal" style="transition-delay:.1s">
+          <div id="map-frame" class="shadow-xl" style="height:420px">
+            <iframe src="https://maps.google.com/maps?q=Desa+Tambelang+Maesaan+Minahasa+Selatan&output=embed&z=14"
+              width="100%" height="100%" style="border:0;" allowfullscreen loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer style="background:#0a1f12" class="py-12 px-6 text-center">
+    <div class="max-w-3xl mx-auto">
+      <div class="text-3xl mb-4">🌿</div>
+      <h3 class="text-white text-2xl mb-2">Desa Tambelang</h3>
+      <p class="text-white/40 text-sm mb-4">Kecamatan Maesaan · Kabupaten Minahasa Selatan · Sulawesi Utara</p>
+      <div class="border-t border-white/10 pt-6 text-white/30 text-xs">
+        Website Profil Desa · Dibuat Oleh KKT - 146 UNSRAT · 2026
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Navbar scroll
+    window.addEventListener('scroll', () => {
+      document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 60);
+    });
+
+    // Mobile menu
+    document.getElementById('menuBtn').addEventListener('click', () => {
+      document.getElementById('mobileMenu').classList.toggle('hidden');
+    });
+    function closeMobile() { document.getElementById('mobileMenu').classList.add('hidden'); }
+
+    // Reveal on scroll
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+    reveals.forEach(r => observer.observe(r));
+
+    // Photo upload
+    function triggerUpload(slot) { slot.querySelector('input[type=file]').click(); }
+    function showPhoto(input) {
+      const slot = input.closest('.photo-slot');
+      const img = slot.querySelector('img');
+      const placeholder = slot.querySelector('.placeholder');
+      const file = input.files[0];
+      if (file) {
+        const url = URL.createObjectURL(file);
+        img.src = url;
+        img.style.display = 'block';
+        placeholder.style.display = 'none';
+      }
+    }
+  </script>
+</body>
+
+</html>
